@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <unistd.h>
 #include <sys/wait.h>
+#include <unistd.h>
 
 void binary_proc_tree(int);
 
