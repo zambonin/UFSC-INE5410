@@ -1,7 +1,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <stdio.h>
-#define MAX_THREADS 100
+#define MAX_THREADS 10
 
 int produce();
 void consume(int*);
@@ -19,18 +19,17 @@ int main(int argc, char **argv) {
     sem_init(&lock_prod, 0, 1);
     sem_init(&lock_cons, 0, 1);
 
-    int j;
     pthread_t threads[MAX_THREADS];
 
-    for (j = 0; j < MAX_THREADS/2; j++) {
+    for (int j = 0; j < MAX_THREADS/2; j++) {
         pthread_create(&threads[j], NULL, producer, NULL);
     }
 
-    for (j = MAX_THREADS/2; j < MAX_THREADS; j++) {
+    for (int j = MAX_THREADS/2; j < MAX_THREADS; j++) {
         pthread_create(&threads[j], NULL, consumer, NULL);
     }
 
-    for (j = 0; j < MAX_THREADS; j++) {
+    for (int j = 0; j < MAX_THREADS; j++) {
         pthread_join(threads[j], NULL);
     }
 
@@ -45,17 +44,23 @@ int main(int argc, char **argv) {
 
 int produce() {
 
-    printf("Produzido %d\n", f);
+    printf("P%d ", f+1);
     max_prod++;
-    return f;
+    return f+1;
 
 }
 
 void consume(int* a) {
 
-    printf("Consumido %d\n", *a);
+    printf("C%d ", *a);
     max_cons++;
-    a = 0;
+    *a = 0;
+
+    printf("|");
+    for (int i = 0; i < MAX_THREADS; i++) {     // prints buffer status
+        printf("%d|", buffer[i]);
+    }
+    printf("\n");
 
 }
 

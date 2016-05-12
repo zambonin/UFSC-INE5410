@@ -11,14 +11,13 @@ sem_t sem;
 int main(int argc, char **argv) {
 
     sem_init(&sem, 0, 1);
-    int i;
     pthread_t threads[MAX_THREADS];
 
-    for (i = 0; i < MAX_THREADS; i++) {
+    for (int i = 0; i < MAX_THREADS; i++) {
         pthread_create(&threads[i], NULL, func_thread, NULL);
     }
 
-    for (i = 0; i < MAX_THREADS; i++) {
+    for (int i = 0; i < MAX_THREADS; i++) {
         pthread_join(threads[i], NULL);
     }
 
@@ -31,11 +30,10 @@ int main(int argc, char **argv) {
 
 void* func_thread() {
 
-    int i;
     pthread_t tid = pthread_self();
 
     sem_wait(&sem);
-    for (i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; i++) {
         global_counter++;
     }
     printf("Worker thread %ld: global_counter = %d.\n", tid, global_counter);
