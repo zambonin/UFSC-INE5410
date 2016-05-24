@@ -1,0 +1,6 @@
+This is a k-means clustering algorithm implementation with some sort of
+parallelism implemented using POSIX threads. It was thoroughly tested, but you
+can never trust Bash scripts enough.
+
+It is around ten times faster than its sequential counterpart with four threads
+on an Intel Core i3-2100 @ 3.1 GHz.
