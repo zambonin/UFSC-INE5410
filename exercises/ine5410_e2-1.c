@@ -1,13 +1,13 @@
 #include <pthread.h>
 #include <stdio.h>
 
-void* printThreadID(void*);
+void* print_thread_id(void*);
 
 int main(int argc, char **argv) {
 
     pthread_t thread;
 
-    pthread_create(&thread, NULL, printThreadID, NULL);
+    pthread_create(&thread, NULL, print_thread_id, NULL);
     pthread_join(thread, NULL);
     pthread_exit(NULL);
 
@@ -15,11 +15,11 @@ int main(int argc, char **argv) {
 
 }
 
-void* printThreadID(void* arg) {
+void* print_thread_id(void* arg) {
 
     pthread_t tid = pthread_self();
 
-    printf("Nova thread criada com ID %u!\n", (unsigned int) tid);
+    printf("New thread created with ID %u!\n", (unsigned int) tid);
     pthread_exit(NULL);
 
 }

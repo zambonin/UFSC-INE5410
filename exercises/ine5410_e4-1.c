@@ -1,7 +1,7 @@
+#include <omp.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <omp.h>
 #define SIZE 50000000
 
 void calc_stuff();

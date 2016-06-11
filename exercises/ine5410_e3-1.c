@@ -1,7 +1,8 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <stdio.h>
-#define MAX_THREADS 100
+#define MAX_THREADS 128
+#define N 100
 
 void* func_thread();
 
@@ -33,7 +34,7 @@ void* func_thread() {
     pthread_t tid = pthread_self();
 
     sem_wait(&sem);
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < N; i++) {
         global_counter++;
     }
     printf("Worker thread %ld: global_counter = %d.\n", tid, global_counter);

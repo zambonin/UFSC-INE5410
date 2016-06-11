@@ -2,14 +2,14 @@
 #include <stdio.h>
 #define MAX_THREADS 5
 
-void* printThreadID(void*);
+void* print_thread_id(void*);
 
 int main(int argc, char **argv) {
 
     pthread_t threads[MAX_THREADS];
 
     for (int i = 0; i < MAX_THREADS; i++) {
-        pthread_create(&threads[i], NULL, printThreadID, NULL);
+        pthread_create(&threads[i], NULL, print_thread_id, NULL);
     }
 
     for (int i = 0; i < MAX_THREADS; i++) {
@@ -22,11 +22,11 @@ int main(int argc, char **argv) {
 
 }
 
-void* printThreadID(void* arg) {
+void* print_thread_id(void* arg) {
 
     pthread_t tid = pthread_self();
 
-    printf("Nova thread criada com ID %u!\n", (unsigned int) tid);
+    printf("New thread created with ID %u!\n", (unsigned int) tid);
     pthread_exit(NULL);
 
 }

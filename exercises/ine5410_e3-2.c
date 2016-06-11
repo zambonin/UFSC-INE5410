@@ -1,7 +1,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <stdio.h>
-#define MAX_THREADS 10
+#define MAX_THREADS 8
 
 int produce();
 void consume(int*);
@@ -21,11 +21,11 @@ int main(int argc, char **argv) {
 
     pthread_t threads[MAX_THREADS];
 
-    for (int j = 0; j < MAX_THREADS/2; j++) {
+    for (int j = 0; j < MAX_THREADS / 2; j++) {
         pthread_create(&threads[j], NULL, producer, NULL);
     }
 
-    for (int j = MAX_THREADS/2; j < MAX_THREADS; j++) {
+    for (int j = MAX_THREADS / 2; j < MAX_THREADS; j++) {
         pthread_create(&threads[j], NULL, consumer, NULL);
     }
 
@@ -57,8 +57,8 @@ void consume(int* a) {
     *a = 0;
 
     printf("|");
-    for (int i = 0; i < MAX_THREADS; i++) {     // prints buffer status
-        printf("%d|", buffer[i]);
+    for (int j = 0; j < MAX_THREADS; j++) {     // prints buffer status
+        printf("%d|", buffer[j]);
     }
     printf("\n");
 

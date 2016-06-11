@@ -1,6 +1,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #define MAX_THREADS 128
+#define N 100
 
 void* increment(void*);
 
@@ -18,7 +19,11 @@ int main(int argc, char **argv) {
         pthread_join(threads[i], NULL);
     }
 
-    printf("%d\n", global_counter);
+
+    if (MAX_THREADS * N != global_counter) {
+        printf("Race condition! ");
+    }
+    printf("global_counter = %d.\n", global_counter);
     pthread_exit(NULL);
 
     return 0;
@@ -27,8 +32,8 @@ int main(int argc, char **argv) {
 
 void* increment(void* arg) {
 
-    for (int i = 0; i < 100; i++) {
-        global_counter++;   // race condition
+    for (int i = 0; i < N; i++) {
+        global_counter++;
     }
 
     pthread_exit(NULL);

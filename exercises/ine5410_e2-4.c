@@ -1,6 +1,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #define MAX_THREADS 128
+#define N 100
 
 void* increment(void*);
 
@@ -20,7 +21,7 @@ int main(int argc, char **argv) {
         pthread_join(threads[i], NULL);
     }
 
-    printf("%d\n", global_counter);
+    printf("global_counter = %d.\n", global_counter);
     pthread_mutex_destroy(&mutex);
 
     return 0;
@@ -30,7 +31,7 @@ int main(int argc, char **argv) {
 void* increment(void* arg) {
 
     pthread_mutex_lock(&mutex);
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < N; i++) {
         global_counter++;
     }
     pthread_mutex_unlock(&mutex);

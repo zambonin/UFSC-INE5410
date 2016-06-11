@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#define N_CHILDS 4
 
 void n_childs(int);
 
 int main(int argc, char** argv) {
 
-    n_childs(4);
+    n_childs(N_CHILDS);
 
     return 0;
 
@@ -15,11 +16,12 @@ int main(int argc, char** argv) {
 void n_childs(int n) {
 
     for (int i = 0; i < n; i++) {
-        if (fork() == 0)    // create one and only one children per iteration
-            break;
+        if (fork() == 0) {                  // create one and only one child
+            break;                          // process per iteration
+        }
     }
 
-    printf("Processo pai %d criou %d.\n", getppid(), getpid());
+    printf("Process %d created %d.\n", getppid(), getpid());
     while (wait(NULL) > 0) {}
 
 }

@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
 void first_fork() {
 
     fork();
-    printf("Novo processo criado!\n");
+    printf("A new process was created!\n");
     wait(NULL);
 
 }
