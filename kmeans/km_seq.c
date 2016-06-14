@@ -1,17 +1,13 @@
 #include <math.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define RANDNUM_W 521288629
 #define RANDNUM_Z 362436069
 
 unsigned int randum_w = RANDNUM_W;
 unsigned int randum_z = RANDNUM_Z;
-
-typedef struct {
-    int chunk_start, chunk_end;
-} chunk_positions;
 
 void srandnum(int seed) {
 
@@ -37,14 +33,13 @@ int npoints, dimension, ncentroids, seed, too_far, has_changed;
 float mindistance;
 vector_t *data, *centroids;
 int *map, *dirty;
-pthread_t *threads;
 
 float v_distance(vector_t a, vector_t b) {
 
     float distance = 0;
 
     for (int i = 0; i < dimension; i++) {
-        distance +=  pow(a[i] - b[i], 2);
+        distance += pow(a[i] - b[i], 2);
     }
 
     return sqrt(distance);
@@ -158,7 +153,6 @@ int* kmeans(void) {
     }
     free(centroids);
     free(dirty);
-    free(threads);
 
     return map;
 }
@@ -178,7 +172,7 @@ int main(int argc, char **argv) {
 
     srandnum(seed);
 
-    if (!(data = malloc(npoints*sizeof(vector_t)))) {
+    if (!(data = malloc(npoints * sizeof(vector_t)))) {
         exit(1);
     }
 

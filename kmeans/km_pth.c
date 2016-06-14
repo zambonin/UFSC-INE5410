@@ -1,7 +1,7 @@
 #include <math.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <pthread.h>
 
 #define RANDNUM_W 521288629
@@ -9,10 +9,6 @@
 
 unsigned int randum_w = RANDNUM_W;
 unsigned int randum_z = RANDNUM_Z;
-
-typedef struct {
-    int _start, _end;
-} chunk_pos;
 
 void srandnum(int seed) {
 
@@ -33,6 +29,9 @@ unsigned int randnum(void) {
 }
 
 typedef float* vector_t;
+typedef struct {
+    int _start, _end;
+} chunk_pos;
 
 int npoints, dimension, ncentroids, seed, too_far, has_changed, nthreads;
 float mindistance;
@@ -80,7 +79,7 @@ void* populate(void* arg) {
             too_far = 1;
         }
     }
-    pthread_exit(NULL);
+    return NULL;
 
 }
 
@@ -111,19 +110,19 @@ void* compute_centroids(void* arg) {
         }
         if (population > 1) {
             for (int k = 0; k < dimension; k++) {
-                centroids[i][k] *= 1.0/population;
+                centroids[i][k] *= 1.0 / population;
             }
         }
         has_changed = 1;
     }
-    pthread_exit(NULL);
+    return NULL;
 
 }
 
 chunk_pos* create_chunks(int nelements) {
 
-    chunk_pos* chunks =
-        (chunk_pos *) malloc(sizeof(chunk_pos) * nthreads);
+    /* If nelements is less than nthreads, do not create empty chunks. */
+    chunk_pos* chunks = (chunk_pos *) calloc(sizeof(chunk_pos), nthreads);
     int chunk_size = nelements / nthreads;
     int remainder = nelements % nthreads;
 
@@ -266,7 +265,6 @@ int main(int argc, char **argv) {
         free(data[i]);
     }
     free(data);
-
 
     return (0);
 

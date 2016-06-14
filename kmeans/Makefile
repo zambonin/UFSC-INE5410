@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -march=native -O3 -pipe -g
 LIBS = -lm -lpthread
 
-K_ARGS = 131 2 9 2.0 987
+K_ARGS = 128 2 8 2.0 987
 
 default: all compare
 
@@ -13,3 +13,6 @@ all:
 compare: SHELL := /bin/bash
 compare:
 	@diff <(./km_seq $(K_ARGS)) <(./km_pth $(K_ARGS) $(shell nproc))
+
+clean:
+	@rm km_{seq,pth}
