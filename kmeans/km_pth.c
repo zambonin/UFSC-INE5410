@@ -121,8 +121,12 @@ void* compute_centroids(void* arg) {
 
 chunk_pos* create_chunks(int nelements) {
 
-    /* If nelements is less than nthreads, do not create empty chunks. */
-    chunk_pos* chunks = (chunk_pos *) calloc(sizeof(chunk_pos), nthreads);
+    chunk_pos* chunks;
+
+    if (!(chunks = calloc(nthreads, sizeof(chunk_pos)))) {
+        exit (1);
+    }
+
     int chunk_size = nelements / nthreads;
     int remainder = nelements % nthreads;
 
