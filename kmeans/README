@@ -4,3 +4,6 @@ can never trust Bash scripts enough.
 
 It is around ten times faster than its sequential counterpart with four threads
 on an Intel Core i3-2100 @ 3.1 GHz.
+
+There's also a MPI implementation, but due to bad logic and/or rounding errors,
+it probably shouldn't be trusted either.
