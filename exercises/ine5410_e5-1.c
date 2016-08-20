@@ -2,9 +2,8 @@
 #include <stdio.h>
 
 int main(int argc, char **argv) {
-
     int size, rank;
-    char* msg = "test";
+    char *msg = "test";
     MPI_Status st;
 
     MPI_Init(&argc, &argv);
@@ -25,5 +24,4 @@ int main(int argc, char **argv) {
     MPI_Finalize();
 
     return 0;
-
 }

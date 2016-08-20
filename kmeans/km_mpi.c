@@ -11,24 +11,20 @@ unsigned int randum_w = RANDNUM_W;
 unsigned int randum_z = RANDNUM_Z;
 
 void srandnum(int seed) {
-
     unsigned int w = (seed * 104623) & 0xffffffff;
     randum_w = (w) ? w : RANDNUM_W;
     unsigned int z = (seed * 48947) & 0xffffffff;
     randum_z = (z) ? z : RANDNUM_Z;
-
 }
 
 unsigned int randnum(void) {
-
     randum_z = 36969 * (randum_z & 65535) + (randum_z >> 16);
     randum_w = 18000 * (randum_w & 65535) + (randum_w >> 16);
     unsigned int u = (randum_z << 16) + randum_w;
     return (u);
-
 }
 
-typedef float* vector_t;
+typedef float *vector_t;
 
 int npoints, dimension, ncentroids, seed, too_far, has_changed;
 float mindistance;
@@ -38,7 +34,6 @@ int *g_dirty, *g_map, g_too_far, g_population;
 int rank, size, chunk_size, rmd, cs, ce;
 
 float v_distance(vector_t a, vector_t b) {
-
     float distance = 0;
 
     for (int i = 0; i < dimension; i++) {
@@ -46,14 +41,12 @@ float v_distance(vector_t a, vector_t b) {
     }
 
     return sqrt(distance);
-
 }
 
 static void populate(void) {
-
     float tmp, distance;
     too_far = 0;
-    
+
     for (int i = cs; i < ce; i++) {
         distance = v_distance(centroids[map[i]], data[i]);
         /* Look for closest cluster. */
@@ -98,11 +91,9 @@ static void populate(void) {
     }
 
     MPI_Bcast(map, npoints, MPI_INT, 0, MPI_COMM_WORLD);
-
 }
 
 static void compute_centroids(void) {
-
     int population;
     has_changed = 0;
 
@@ -123,11 +114,11 @@ static void compute_centroids(void) {
             }
             population++;
         }
-        
+
         MPI_Allreduce(&population, &g_population, 1, MPI_INT, MPI_SUM,
-                MPI_COMM_WORLD);
+                      MPI_COMM_WORLD);
         MPI_Allreduce(centroids[i], g_centroids[i], dimension, MPI_FLOAT,
-                MPI_SUM, MPI_COMM_WORLD);
+                      MPI_SUM, MPI_COMM_WORLD);
 
         for (int k = 0; k < dimension; k++) {
             centroids[i][k] = g_centroids[i][k];
@@ -135,18 +126,16 @@ static void compute_centroids(void) {
 
         if (g_population > 1) {
             for (int k = 0; k < dimension; k++) {
-                centroids[i][k] *= 1.0/g_population;
+                centroids[i][k] *= 1.0 / g_population;
             }
         }
         has_changed = 1;
     }
 
     memset(dirty, 0, ncentroids * sizeof(int));
-
 }
 
 static void create_chunks() {
-
     chunk_size = npoints / size;
     rmd = npoints % size;
 
@@ -156,31 +145,29 @@ static void create_chunks() {
     if (rank == size - 1) {
         ce += rmd;
     }
-
 }
 
-int* kmeans(void) {
-
+int *kmeans(void) {
     too_far = 0;
     has_changed = 0;
 
     if (!(map = calloc(npoints, sizeof(int)))) {
-        exit (1);
+        exit(1);
     }
     if (!(dirty = malloc(ncentroids * sizeof(int)))) {
-        exit (1);
+        exit(1);
     }
     if (!(centroids = malloc(ncentroids * sizeof(vector_t)))) {
-        exit (1);
+        exit(1);
     }
     if (!(g_map = calloc(npoints, sizeof(int)))) {
-        exit (1);
+        exit(1);
     }
     if (!(g_dirty = malloc(ncentroids * sizeof(int)))) {
-        exit (1);
+        exit(1);
     }
     if (!(g_centroids = malloc(ncentroids * sizeof(vector_t)))) {
-        exit (1);
+        exit(1);
     }
     for (int i = 0; i < ncentroids; i++) {
         centroids[i] = malloc(sizeof(float) * dimension);
@@ -227,14 +214,12 @@ int* kmeans(void) {
     free(g_map);
 
     return map;
-
 }
 
 int main(int argc, char **argv) {
-
     if (argc != 6) {
         printf("Usage: npoints dimension ncentroids mindistance seed\n");
-        exit (1);
+        exit(1);
     }
 
     MPI_Init(&argc, &argv);
@@ -283,5 +268,4 @@ int main(int argc, char **argv) {
     MPI_Finalize();
 
     return (0);
-
 }

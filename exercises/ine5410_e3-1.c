@@ -4,13 +4,12 @@
 #define MAX_THREADS 128
 #define N 100
 
-void* func_thread();
+void *func_thread();
 
 int global_counter = 0;
 sem_t sem;
 
 int main(int argc, char **argv) {
-
     sem_init(&sem, 0, 1);
     pthread_t threads[MAX_THREADS];
 
@@ -26,11 +25,9 @@ int main(int argc, char **argv) {
     sem_destroy(&sem);
 
     return 0;
-
 }
 
-void* func_thread() {
-
+void *func_thread() {
     pthread_t tid = pthread_self();
 
     sem_wait(&sem);
@@ -41,5 +38,4 @@ void* func_thread() {
     sem_post(&sem);
 
     return 0;
-
 }

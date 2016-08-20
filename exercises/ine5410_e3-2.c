@@ -4,16 +4,15 @@
 #define MAX_THREADS 8
 
 int produce();
-void consume(int*);
-void* producer();
-void* consumer();
+void consume(int *);
+void *producer();
+void *consumer();
 
 int buffer[MAX_THREADS];
 int i = 0, f = 0, max_prod = 0, max_cons = 0;
 sem_t full, empty, lock_prod, lock_cons;
 
 int main(int argc, char **argv) {
-
     sem_init(&full, 0, 0);
     sem_init(&empty, 0, MAX_THREADS);
     sem_init(&lock_prod, 0, 1);
@@ -39,33 +38,27 @@ int main(int argc, char **argv) {
     sem_destroy(&lock_cons);
 
     return 0;
-
 }
 
 int produce() {
-
-    printf("P%d ", f+1);
+    printf("P%d ", f + 1);
     max_prod++;
-    return f+1;
-
+    return f + 1;
 }
 
-void consume(int* a) {
-
+void consume(int *a) {
     printf("C%d ", *a);
     max_cons++;
     *a = 0;
 
     printf("|");
-    for (int j = 0; j < MAX_THREADS; j++) {     // prints buffer status
+    for (int j = 0; j < MAX_THREADS; j++) { // prints buffer status
         printf("%d|", buffer[j]);
     }
     printf("\n");
-
 }
 
-void* producer() {
-
+void *producer() {
     while (1) {
         sem_wait(&empty);
         sem_wait(&lock_prod);
@@ -74,11 +67,9 @@ void* producer() {
         sem_post(&lock_prod);
         sem_post(&full);
     }
-
 }
 
-void* consumer() {
-
+void *consumer() {
     while (1) {
         sem_wait(&full);
         sem_wait(&lock_cons);
@@ -87,5 +78,4 @@ void* consumer() {
         sem_post(&lock_cons);
         sem_post(&empty);
     }
-
 }

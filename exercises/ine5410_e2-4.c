@@ -3,16 +3,15 @@
 #define MAX_THREADS 128
 #define N 100
 
-void* increment(void*);
+void *increment(void *);
 
 int global_counter = 0;
 pthread_mutex_t mutex;
 
 int main(int argc, char **argv) {
-
     pthread_t threads[MAX_THREADS];
 
-    pthread_mutex_init(&mutex,  NULL);
+    pthread_mutex_init(&mutex, NULL);
     for (int i = 0; i < MAX_THREADS; i++) {
         pthread_create(&threads[i], NULL, increment, NULL);
     }
@@ -25,11 +24,9 @@ int main(int argc, char **argv) {
     pthread_mutex_destroy(&mutex);
 
     return 0;
-
 }
 
-void* increment(void* arg) {
-
+void *increment(void *arg) {
     pthread_mutex_lock(&mutex);
     for (int i = 0; i < N; i++) {
         global_counter++;
@@ -37,5 +34,4 @@ void* increment(void* arg) {
     pthread_mutex_unlock(&mutex);
 
     pthread_exit(NULL);
-
 }
