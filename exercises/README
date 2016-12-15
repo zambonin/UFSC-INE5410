@@ -1,0 +1,13 @@
+Exercises that deal with various topics of concurrent programming, featuring:
+ * binary tree of processes
+ * producer/consumer problem
+ * matrix multiplication
+ * Monte Carlo method for calculating pi
+
+ Compile with
+
+    $ make -s
+
+and remove the binaries with
+
+    $ make clean

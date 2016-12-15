@@ -2,16 +2,16 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-void first_fork();
+void first_fork(void);
 
-int main(int argc, char **argv) {
-    first_fork();
+int main() {
+  first_fork();
 
-    return 0;
+  return 0;
 }
 
 void first_fork() {
-    fork();
-    printf("A new process was created!\n");
-    wait(NULL);
+  fork();
+  printf("A new process was created!\n");
+  wait(NULL);
 }

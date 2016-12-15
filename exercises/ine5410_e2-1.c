@@ -1,21 +1,19 @@
 #include <pthread.h>
 #include <stdio.h>
 
-void *print_thread_id(void *);
+static void *print_thread_id();
 
-int main(int argc, char **argv) {
-    pthread_t thread;
+int main() {
+  pthread_t thread;
 
-    pthread_create(&thread, NULL, print_thread_id, NULL);
-    pthread_join(thread, NULL);
-    pthread_exit(NULL);
-
-    return 0;
+  pthread_create(&thread, NULL, print_thread_id, NULL);
+  pthread_join(thread, NULL);
+  pthread_exit(NULL);
 }
 
-void *print_thread_id(void *arg) {
-    pthread_t tid = pthread_self();
+void *print_thread_id() {
+  pthread_t tid = pthread_self();
 
-    printf("New thread created with ID %u!\n", (unsigned int)tid);
-    pthread_exit(NULL);
+  printf("New thread created with ID %u!\n", (unsigned int) tid);
+  pthread_exit(NULL);
 }
