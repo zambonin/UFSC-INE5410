@@ -7,3 +7,11 @@ on an Intel Core i3-2100 @ 3.1 GHz.
 
 There's also a MPI implementation, but due to bad logic and/or rounding errors,
 it probably shouldn't be trusted either.
+
+Compile with
+
+    $ make -s
+
+Original assignments:
+ * a5f1d350a0bc04bf9cc882642740543f43d1be4d (pthreads) 
+ * 286f4aea856287c9b6ba8bea21f103dae2d120c0 (MPI)
