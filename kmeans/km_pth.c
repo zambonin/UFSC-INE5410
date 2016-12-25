@@ -217,7 +217,7 @@ int *kmeans(void) {
   /* This should be optimized to reuse threads. */
 
   /* Cluster data. */
-  do { 
+  do {
     too_far = 0;
     for (int i = 0; i < nthreads; i++) {
       pthread_create(&threads[i], NULL, populate, (void *) &p_chunks[i]);

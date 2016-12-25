@@ -1,4 +1,3 @@
-CC = gcc
 CFLAGS = -Wall -Wextra -march=native -O3 -pipe -g -lm
 
 all: pth omp mpi

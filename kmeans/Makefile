@@ -1,7 +1,5 @@
-CC = gcc
 CFLAGS = -Wall -Wextra -march=native -O3 -pipe -g -lm
-N = $(shell nproc)
-
+NP = $(shell nproc)
 K_ARGS = 128 2 8 2.0 987
 
 all: seq pth mpi compare
@@ -16,8 +14,8 @@ mpi: $(basename km_mpi.c)
 
 compare: SHELL := /bin/bash
 compare:
-	@diff -q <(./km_seq $(K_ARGS)) <(./km_pth $(K_ARGS) $(N))
-	@diff -q <(./km_seq $(K_ARGS)) <(mpirun -np $(N) ./km_mpi $(K_ARGS))
+	@diff -q <(./km_seq $(K_ARGS)) <(./km_pth $(K_ARGS) $(NP))
+	@diff -q <(./km_seq $(K_ARGS)) <(mpirun -np $(NP) ./km_mpi $(K_ARGS))
 
 clean:
-	@rm km_{seq,pth,mpi}
+	@rm $(basename $(wildcard *.c))
