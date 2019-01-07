@@ -6,7 +6,7 @@
 #define MAX_PRODUCTIONS 64
 
 static int produce();
-void consume(int *);
+void consume(int * /*a*/);
 static void *producer();
 static void *consumer();
 

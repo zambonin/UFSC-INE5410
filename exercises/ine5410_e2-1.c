@@ -14,6 +14,6 @@ int main() {
 void *print_thread_id() {
   pthread_t tid = pthread_self();
 
-  printf("New thread created with ID %u!\n", (unsigned int) tid);
+  printf("New thread created with ID %u!\n", (unsigned int)tid);
   pthread_exit(NULL);
 }

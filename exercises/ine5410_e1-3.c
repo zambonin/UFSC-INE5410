@@ -4,7 +4,7 @@
 
 #define MAX_HEIGHT 2
 
-void binary_proc_tree(int);
+void binary_proc_tree(int /*height*/);
 
 int main() {
   binary_proc_tree(MAX_HEIGHT);
@@ -14,9 +14,10 @@ int main() {
 
 void binary_proc_tree(int height) {
   for (int i = 0; i < height; i++) {
-    if (fork() != 0 && fork() != 0) {   // if both nodes are parents then
-      break;                            // extra nodes cannot be created
-    }                                   // at that level
+    // NOLINTNEXTLINE(misc-redundant-expression)
+    if (fork() != 0 && fork() != 0) { // if both nodes are parents then
+      break;                          // extra nodes cannot be created
+    }                                 // at that level
   }
 
   printf("Process %d created %d.\n", getppid(), getpid());

@@ -6,7 +6,7 @@
 #define RANDNUM_W 521288629
 #define RANDNUM_Z 362436069
 
-typedef float* vector_t;
+typedef float *vector_t;
 
 static unsigned int randum_w = RANDNUM_W;
 static unsigned int randum_z = RANDNUM_Z;
@@ -16,12 +16,12 @@ static float mindistance;
 static vector_t *data, *centroids;
 static int *map, *dirty;
 
-void srandnum(int);
+void srandnum(int /*_seed*/);
 unsigned int randnum(void);
-float v_distance(vector_t, vector_t);
+float v_distance(vector_t /*a*/, vector_t /*b*/);
 void populate(void);
 void compute_centroids(void);
-int* kmeans(void);
+int *kmeans(void);
 
 int main(int argc, char **argv) {
   if (argc != 6) {
@@ -29,19 +29,19 @@ int main(int argc, char **argv) {
     exit(1);
   }
 
-  npoints = atoi(argv[1]);
-  dimension = atoi(argv[2]);
-  ncentroids = atoi(argv[3]);
-  mindistance = atoi(argv[4]);
-  seed = atoi(argv[5]);
+  npoints = strtol(argv[1], NULL, 0);
+  dimension = strtol(argv[2], NULL, 0);
+  ncentroids = strtol(argv[3], NULL, 0);
+  mindistance = strtol(argv[4], NULL, 0);
+  seed = strtol(argv[5], NULL, 0);
 
   srandnum(seed);
 
-  data = calloc((unsigned int) npoints, sizeof(vector_t));
+  data = calloc((unsigned int)npoints, sizeof(vector_t));
   for (int i = 0; i < npoints; i++) {
-    data[i] = calloc((unsigned int) dimension, sizeof(float));
+    data[i] = calloc((unsigned int)dimension, sizeof(float));
     for (int j = 0; j < dimension; j++) {
-      data[i][j] = randnum() & 0xffff;
+      data[i][j] = randnum() & 65535U;
     }
   }
 
@@ -67,16 +67,16 @@ int main(int argc, char **argv) {
 }
 
 void srandnum(int _seed) {
-  unsigned int w = ((unsigned int) _seed * 104623) & 0xffffffff;
+  unsigned int w = ((unsigned int)_seed * 104623) & 0xffffffff;
   randum_w = (w) ? w : RANDNUM_W;
-  unsigned int z = ((unsigned int) _seed * 48947) & 0xffffffff;
+  unsigned int z = ((unsigned int)_seed * 48947) & 0xffffffff;
   randum_z = (z) ? z : RANDNUM_Z;
 }
 
 unsigned int randnum(void) {
-  randum_z = 36969 * (randum_z & 65535) + (randum_z >> 16);
-  randum_w = 18000 * (randum_w & 65535) + (randum_w >> 16);
-  unsigned int u = (randum_z << 16) + randum_w;
+  randum_z = 36969U * (randum_z & 65535U) + (randum_z >> 16U);
+  randum_w = 18000U * (randum_w & 65535U) + (randum_w >> 16U);
+  unsigned int u = (randum_z << 16U) + randum_w;
   return (u);
 }
 
@@ -125,7 +125,7 @@ void compute_centroids(void) {
     if (!dirty[i]) {
       continue;
     }
-    memset(centroids[i], 0, sizeof(float) * (unsigned int) dimension);
+    memset(centroids[i], 0, sizeof(float) * (unsigned int)dimension);
     /* Compute cluster's mean. */
     population = 0;
     for (int j = 0; j < npoints; j++) {
@@ -144,26 +144,26 @@ void compute_centroids(void) {
     }
     has_changed = 1;
   }
-  memset(dirty, 0, sizeof(int) * (unsigned int) ncentroids);
+  memset(dirty, 0, sizeof(int) * (unsigned int)ncentroids);
 }
 
 int *kmeans(void) {
   too_far = 0;
   has_changed = 0;
 
-  map = calloc((unsigned int) npoints, sizeof(int));
-  dirty = calloc((unsigned int) ncentroids, sizeof(int));
-  centroids = calloc((unsigned int) ncentroids, sizeof(vector_t));
+  map = calloc((unsigned int)npoints, sizeof(int));
+  dirty = calloc((unsigned int)ncentroids, sizeof(int));
+  centroids = calloc((unsigned int)ncentroids, sizeof(vector_t));
 
   for (int i = 0; i < ncentroids; i++) {
-    centroids[i] = calloc((unsigned int) dimension, sizeof(float));
+    centroids[i] = calloc((unsigned int)dimension, sizeof(float));
   }
   for (int i = 0; i < npoints; i++) {
     map[i] = -1;
   }
   for (int i = 0; i < ncentroids; i++) {
     dirty[i] = 1;
-    int j = (int) (randnum() % (unsigned int) npoints);
+    int j = (int)(randnum() % (unsigned int)npoints);
     for (int k = 0; k < dimension; k++) {
       centroids[i][k] = data[j][k];
     }
@@ -173,7 +173,7 @@ int *kmeans(void) {
   /* Map unmapped data points. */
   for (int i = 0; i < npoints; i++) {
     if (map[i] < 0) {
-      map[i] = (int) (randnum() % (unsigned int) ncentroids);
+      map[i] = (int)(randnum() % (unsigned int)ncentroids);
     }
   }
 

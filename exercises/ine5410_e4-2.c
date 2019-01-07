@@ -18,21 +18,21 @@ void matrix_mult() {
   int i, j, k;
 
   /* matrix A to be multiplied */
-  double **a = (double **) malloc(sizeof(double *) * NRA);
+  double **a = (double **)malloc(sizeof(double *) * NRA);
   for (i = 0; i < NRA; i++) {
-    a[i] = (double *) malloc(sizeof(double) * NCA);
+    a[i] = (double *)malloc(sizeof(double) * NCA);
   }
 
   /* matrix B to be multiplied */
-  double **b = (double **) malloc(sizeof(double *) * NCA);
+  double **b = (double **)malloc(sizeof(double *) * NCA);
   for (i = 0; i < NCA; i++) {
-    b[i] = (double *) malloc(sizeof(double) * NCB);
+    b[i] = (double *)malloc(sizeof(double) * NCB);
   }
 
   /* result matrix C */
-  double **c = (double **) malloc(sizeof(double *) * NRA);
+  double **c = (double **)malloc(sizeof(double *) * NRA);
   for (i = 0; i < NRA; i++) {
-    c[i] = (double *) malloc(sizeof(double) * NCB);
+    c[i] = (double *)malloc(sizeof(double) * NCB);
   }
 
   /* initialize matrices */
@@ -54,8 +54,8 @@ void matrix_mult() {
     }
   }
 
-  /* matrix-matrix multiplication */
-  #pragma omp parallel for private(i, j, k)
+/* matrix-matrix multiplication */
+#pragma omp parallel for private(i, j, k)
   for (i = 0; i < NRA; i++) {
     for (j = 0; j < NCB; j++) {
       for (k = 0; k < NCA; k++) {

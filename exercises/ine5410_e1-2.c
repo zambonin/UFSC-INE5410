@@ -4,7 +4,7 @@
 
 #define N_CHILDS 4
 
-void n_childs(int);
+void n_childs(int /*n*/);
 
 int main() {
   n_childs(N_CHILDS);
@@ -14,8 +14,8 @@ int main() {
 
 void n_childs(int n) {
   for (int i = 0; i < n; i++) {
-    if (fork() == 0) {  // create one and only one child
-      break;            // process per iteration
+    if (fork() == 0) { // create one and only one child
+      break;           // process per iteration
     }
   }
 
