@@ -15,7 +15,8 @@ mpi: $(basename km_mpi.c)
 compare: SHELL := /bin/bash
 compare:
 	@diff -q <(./km_seq $(K_ARGS)) <(./km_pth $(K_ARGS) $(NP))
-	@diff -q <(./km_seq $(K_ARGS)) <(mpirun -np $(NP) ./km_mpi $(K_ARGS))
+	@diff -q <(./km_seq $(K_ARGS)) \
+		<(mpirun -use-hwthread-cpus -np $(NP) ./km_mpi $(K_ARGS))
 
 clean:
 	@rm $(basename $(wildcard *.c))
